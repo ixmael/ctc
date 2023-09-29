@@ -14,10 +14,22 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
-        return response()->json($tasks);
+        if ($request->state) {
+            $filters['state'] = filter_var(strip_tags(trim($request->state)), FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+        if ($request->created_by) {
+            $filters['created_by'] = filter_var(strip_tags(trim($request->created_by)), FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+
+        // Fetch the filtered tasks
+        $filteredTasks = Task::where($filters)->get();
+
+        return response()->json([
+            'total' => count($filteredTasks),
+            'payload' => $filteredTasks,
+        ]);
     }
 
     /**

@@ -17,5 +17,7 @@ php artisan migrate
 php artisan serve
 ```
 
+You can use [the CTC postman collection](ctc.postman_collection.json) to consume the RestAPI in the localhost from *postman*.
+
 ## Production
 TODO.

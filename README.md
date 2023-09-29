@@ -4,8 +4,4 @@
 This is the implementation of the platform.
 
 ## API
-You have the RestAPI in the directory **laravel**. It was implemented with *Laravel 10* and *PHP 8.1*.
-
-There is [the CTC postman collection](laravel/ctc.postman_collection.json) to consume the RestAPI from *postman*.
-
-In the [CTC RestAPI README](laravel/README.md) you have more details to work or deploy the RestAPI.
+You have the RestAPI in the directory **laravel**. It was implemented with *Laravel 10* and *PHP 8.1*. In the [CTC RestAPI README](laravel/README.md) you have more details to work or deploy the RestAPI.

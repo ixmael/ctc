@@ -17,12 +17,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ctc_host}}/tasks",
+							"raw": "{{ctc_host}}/tasks?state=MX-COL&created_by=ixmael",
 							"host": [
 								"{{ctc_host}}"
 							],
 							"path": [
 								"tasks"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "MX-COL"
+								},
+								{
+									"key": "created_by",
+									"value": "ixmael"
+								}
 							]
 						}
 					},
