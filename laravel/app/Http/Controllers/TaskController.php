@@ -23,11 +23,13 @@ class TaskController extends Controller
             $filters['created_by'] = filter_var(strip_tags(trim($request->created_by)), FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
+        $total = Task::count();
+
         // Fetch the filtered tasks
         $filteredTasks = Task::where($filters)->get();
 
         return response()->json([
-            'total' => count($filteredTasks),
+            'total' => $total,
             'payload' => $filteredTasks,
         ]);
     }
