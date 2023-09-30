@@ -18,8 +18,10 @@ type FiltersType = {
 }
 
 export default function TasksComponent() {
-    const [isLoading, setIsLoading] = useState<Boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [tasks, setTasks] = useState<Array<TaskType>>([])
+    const [taskError, setTaskError] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
     const [filters, setFilters] = useState<FiltersType>({})
 
     useEffect(() => {
@@ -37,6 +39,8 @@ export default function TasksComponent() {
     }, []);
 
     const likeTask = (id: string) => {
+        setTaskError(null)
+        setError(null)
         addVoteTask(id)
             .then(_ => {
                 // Update the current list
@@ -52,11 +56,14 @@ export default function TasksComponent() {
                 setTasks(updatedTasks);
             })
             .catch(err => {
-                console.log('err', err)
+                setTaskError(id)
+                setError(err.message)
             })
     }
 
     const delTask = (id: string) => {
+        setTaskError(null)
+        setError(null)
         deleteTask(id)
             .then(_ => {
                 // Delete the task from the current tasks list
@@ -72,23 +79,34 @@ export default function TasksComponent() {
                 setTasks(updatedTasks);
             })
             .catch(err => {
-                console.log('err', err)
+                setTaskError(id)
+                setError(err.message)
             })
+    }
+
+    let errorView = (null)
+    if (error) {
+        errorView = (
+            <div>
+                {error}
+            </div>
+        )
     }
 
     let filtersView = (null)
 
     let tasksView = (null)
     if (!isLoading) {
-        tasksView = (<div className="empty">No hay tareas registradas</div>)
+        tasksView = (<div className="empty">no hay tareas registradas</div>)
     }
 
     if (tasks.length > 0) {
-        tasksView = (<Tasks list={tasks} onDeleteTask={delTask} onVoteTask={likeTask} />)
+        tasksView = (<Tasks list={tasks} onDeleteTask={delTask} onVoteTask={likeTask} hasError={taskError} />)
     }
 
     return <div className="tasks-list">
-        <h2>Tareas comunitarias registradas</h2>
+        <h2>tareas comunitarias registradas</h2>
+        {errorView}
         {filtersView}
         {tasksView}
         <div className="loading">

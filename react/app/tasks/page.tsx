@@ -8,7 +8,9 @@ import createANewTask from '@/app/api/createTask';
 import { statesKeyName } from '@/app/utils/catalog';
 
 export default function Task() {
-
+    const [isCreating, setIsCreating] = useState<boolean>(false);
+    const [taskWasCreated, setTaskWasCreated] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const [isValidData, setIsValidData] = useState<boolean>(false);
 
     const [title, setTitle] = useState<string>('');
@@ -20,23 +22,27 @@ export default function Task() {
         e.preventDefault()
 
         if (isValidData) {
+            const newTask = {
+                title,
+                description,
+                created_by: createdBy,
+                state,
+            };
 
+            setIsCreating(true);
+
+            createANewTask(newTask)
+                .then(_ => {
+                    setTaskWasCreated(true)
+                    clear()
+                })
+                .catch((err: any) => {
+                    setError(err.message)
+                })
+                .finally(() => {
+                    setIsCreating(false);
+                });
         }
-
-        const newTask = {
-            title,
-            description,
-            created_by: createdBy,
-            state,
-        };
-
-        createANewTask(newTask)
-            .then(_ => {
-                console.log('stored');
-            })
-            .catch(err => {
-                console.log('error', err)
-            });
 
         return null;
     };
@@ -71,11 +77,29 @@ export default function Task() {
         }
     }
 
+    let loadingView = (null)
+    if (isCreating) {
+        loadingView = (<div>loading</div>)
+    }
+
+    let createdView = (null)
+    if (taskWasCreated) {
+        createdView = (<div>creada</div>)
+    }
+
+    let errorView = (null)
+    if (error) {
+        errorView = (<div>{error}</div>)
+    }
+
     return <div className="new-task">
         <div className="header">
             <Link href="/">regresar</Link>
             <h3>Nueva tarea comunitaria</h3>
         </div>
+        {loadingView}
+        {createdView}
+        {errorView}
         <div className="content">
             <form method="POST" onSubmit={create} onChange={() => isValid()}>
                 <div className="form-item">
@@ -105,7 +129,7 @@ export default function Task() {
 
                 <div className="form-actions">
                     <button type="reset" onClick={clear}>clear</button>
-                    <button type="submit" disabled={!isValidData}>guardar</button>
+                    <button type="submit" disabled={!isValidData || isCreating}>guardar</button>
                 </div>
             </form>
         </div>
