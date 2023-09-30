@@ -48,7 +48,16 @@ body {
 }
 
 .filters {
-    background-color: aqua;
+    & .header {
+        display: flex;
+        align-items: center;
+    }
+
+    & .filters-form {
+        & li.empty {
+            opacity: 0.5;
+        }
+    }
 }
 
 .new-task {

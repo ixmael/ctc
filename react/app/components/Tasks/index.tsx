@@ -11,6 +11,7 @@ import deleteTask from '@/app/api/deleteTask'
 import LoadIcon from '@/app/assets/icons/load'
 
 import Tasks from './tasks'
+import Filters from './Filters'
 
 type FiltersType = {
     state?: string;
@@ -38,6 +39,20 @@ export default function TasksComponent() {
             })
     }, []);
 
+    useEffect(() => {
+        setIsLoading(true)
+        getTasksList(filters)
+            .then(tasksList => {
+                setTasks(tasksList);
+            })
+            .catch(err => {
+                console.log('err', err)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }, [JSON.stringify(filters)]);
+
     const likeTask = (id: string) => {
         setTaskError(null)
         setError(null)
@@ -59,6 +74,10 @@ export default function TasksComponent() {
                 setTaskError(id)
                 setError(err.message)
             })
+    }
+
+    const onUpdateFilters = (newFilters: any) => {
+        setFilters(newFilters)
     }
 
     const delTask = (id: string) => {
@@ -93,7 +112,7 @@ export default function TasksComponent() {
         )
     }
 
-    let filtersView = (null)
+    let filtersView = (<Filters filters={filters} onUpdateFilters={onUpdateFilters} />)
 
     let tasksView = (null)
     if (!isLoading) {
