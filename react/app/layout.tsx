@@ -1,9 +1,8 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import Link from 'next/link'
+import 'normalize.css'
+import './globals.scss'
 
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from 'next'
+import { Lora } from 'next/font/google'
 
 export const metadata: Metadata = {
   title: 'Cuida Tu Comunidad',
@@ -17,13 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <body className="ctc-body">
         <header>
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              <Link href="/">Cuida Tu Comunidad</Link>
-            </h1>
-          </div>
+          <h1>
+            Cuida Tu Comunidad
+          </h1>
         </header>
         <main>
           {children}

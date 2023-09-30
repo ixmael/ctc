@@ -1,0 +1,74 @@
+body {
+    font-family: 'Lora', serif;
+    font-size: 1.2rem;
+}
+
+.ctc-body {
+    & header {
+        & h1 {
+            text-align: center;
+        }
+    }
+
+    & .tasks-list {
+        & h2 {
+            text-align: center;
+        }
+
+        & .loading {
+            display: flex;
+            justify-content: center;
+        }
+
+        & .empty {
+            text-align: center;
+        }
+
+        & ul.tasks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            & li.task {
+                margin: 2rem;
+
+                & .header {
+                    & h3 {
+                    }
+                }
+            }
+        }
+    }
+}
+
+.task-add {
+    display: flex;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+.filters {
+    background-color: aqua;
+}
+
+.new-task {
+    & .form-item {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem 0;
+        padding: 0 0.5rem;
+    }
+
+    & .form-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 1rem 0;
+        padding: 0 0.5rem;
+
+        & :first-child {
+            margin-right: 2rem;
+        }
+    }
+}

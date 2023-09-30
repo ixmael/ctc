@@ -1,12 +1,18 @@
 import Link from 'next/link'
-import TasksComponent from '@/app/components/tasks';
+
+import AddIcon from '@/app/assets/icons/add'
+
+import TasksComponent from '@/app/components/Tasks'
 
 export default function Home() {
-    return <div className="py-6 px-4 sm:p-6 md:py-10 md:px-8">
-        <div>
-            <p className="text-xl text-gray-700">Iniciativa que busca incentivar la colaboración ciudadana en tareas comunitarias. Los ciudadanos otorguen "likes" a tareas que consideren relevantes.</p>
-        </div>
-        <Link href="/tasks">Nueva tarea</Link>
-        <TasksComponent />
-    </div>
+  return <div className="home">
+    <p className="">Iniciativa que busca incentivar la colaboración ciudadana en tareas comunitarias. Los ciudadanos otorgan &quot;likes&quot; a tareas que consideren relevantes.</p>
+
+    <Link href="/tasks" className="task-add">
+      <div>Agregar nueva tarea</div>
+      <AddIcon />
+    </Link>
+
+    <TasksComponent />
+  </div>
 }
