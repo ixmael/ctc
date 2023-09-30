@@ -12,13 +12,19 @@ import LoadIcon from '@/app/assets/icons/load'
 
 import Tasks from './tasks'
 
+type FiltersType = {
+    state?: string;
+    created_by?: string;
+}
+
 export default function TasksComponent() {
     const [isLoading, setIsLoading] = useState<Boolean>(false)
     const [tasks, setTasks] = useState<Array<TaskType>>([])
+    const [filters, setFilters] = useState<FiltersType>({})
 
     useEffect(() => {
         setIsLoading(true)
-        getTasksList({})
+        getTasksList(filters)
             .then(tasksList => {
                 setTasks(tasksList);
             })

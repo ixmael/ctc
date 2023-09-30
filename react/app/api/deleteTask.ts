@@ -1,7 +1,8 @@
 "use client";
 
 const deleteTask = async (id: string): Promise<Boolean> => {
-  const request = new Request(`http://localhost:8000/api/v1/tasks/${id}`, {
+  const url = new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URI}/tasks/${id}`);
+  const request = new Request(url, {
     method: 'DELETE',
   });
 

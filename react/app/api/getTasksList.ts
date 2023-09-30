@@ -6,8 +6,15 @@ type FiltersTasks = {
 };
 
 const getTasksList = async (filters: FiltersTasks): Promise<Array<any>> => {
-  const request = new Request("http://localhost:8000/api/v1/tasks");
+  const url = new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URI}/tasks`);
+  if (filters.state) {
+    url.searchParams.append('state', filters.state);
+  }
+  if (filters.created_by) {
+    url.searchParams.append('created_by', filters.created_by);
+  }
 
+  const request = new Request(url)
   return fetch(request)
     .then((response) => {
       if (response.ok) {

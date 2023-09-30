@@ -1,10 +1,12 @@
 "use client";
 
 const createTask = async (task: any): Promise<Boolean> => {
+  const url = new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URI}/tasks`);
+
   const headers = new Headers();
   headers.append('Content-Type', 'application/json')
 
-  const request = new Request(`http://localhost:8000/api/v1/tasks`, {
+  const request = new Request(url, {
     method: "POST",
     headers,
     body: JSON.stringify(task),
