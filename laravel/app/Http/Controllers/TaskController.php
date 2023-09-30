@@ -12,7 +12,7 @@ use App\Models\Task;
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * List all the tasks
      */
     public function index(Request $request)
     {
@@ -36,7 +36,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create a new task
      */
     public function create(Request $request)
     {
@@ -75,8 +75,6 @@ class TaskController extends Controller
             'MX-ZAC',
         ];
 
-        print_r($request->all());
-
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'description' => 'required',
@@ -86,7 +84,6 @@ class TaskController extends Controller
 
         // Validate input
         if ($validator->fails()) {
-            print_r($validator->errors());
             return response([
                 'message' => 'the data is not valid',
             ], Response::HTTP_BAD_REQUEST);
@@ -113,60 +110,13 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $validator = Validator::make([
-            'id' => $id
-        ], [
-            'id' => 'required|uuid',
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'message' => 'the ID is not valid',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
-        $validated = $validator->safe()->only([
-            'id',
-        ]);
-
-        $task = Task::find($validated['id']);
-
-        // The task not exists
-        if (!$task) {
-            return response([
-                'message' => "the task with the ID '" . $id . "' not exists",
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        return response()->json($task);
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Delete the task.
      */
     public function destroy(string $id)
     {
-        $validator = Validator::make([
-            'id' => $id
-        ], [
-            'id' => 'required|uuid',
-        ]);
+        $validatedID = $this->readAndValidateID($id);
 
-        if ($validator->fails()) {
-            return response([
-                'message' => 'the ID is not valid',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
-        $validated = $validator->safe()->only([
-            'id',
-        ]);
-
-        $task = Task::find($validated['id']);
+        $task = Task::find($validatedID);
 
         // The task not exists
         if (!$task) {
@@ -195,6 +145,28 @@ class TaskController extends Controller
      */
     public function vote(string $id)
     {
+        $validatedID = $this->readAndValidateID($id);
+
+        $task = Task::find($validatedID);
+
+        // The task not exists
+        if (!$task) {
+            return response([
+                'message' => "the task with the ID '" . $id . "' not exists",
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $task['likes'] = $task['likes'] + 1;
+        $task->save();
+
+        return response()->noContent(Response::HTTP_CREATED);
+    }
+
+    /**
+     * Read the ID parameter and satinize it
+     */
+    private function readAndValidateID($id)
+    {
         $validator = Validator::make([
             'id' => $id
         ], [
@@ -211,18 +183,6 @@ class TaskController extends Controller
             'id',
         ]);
 
-        $task = Task::find($validated['id']);
-
-        // The task not exists
-        if (!$task) {
-            return response([
-                'message' => "the task with the ID '" . $id . "' not exists",
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        $task['likes'] = $task['likes'] + 1;
-        $task->save();
-
-        return response()->noContent(201);
+        return $validated['id'];
     }
 }
