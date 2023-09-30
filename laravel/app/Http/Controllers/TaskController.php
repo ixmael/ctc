@@ -16,6 +16,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $filters = [];
         if ($request->state) {
             $filters['state'] = filter_var(strip_tags(trim($request->state)), FILTER_SANITIZE_SPECIAL_CHARS);
         }
@@ -39,15 +40,53 @@ class TaskController extends Controller
      */
     public function create(Request $request)
     {
+        $states = [
+            'MX-AGU',
+            'MX-BCN',
+            'MX-BCS',
+            'MX-CAM',
+            'MX-CHP',
+            'MX-CHH',
+            'MX-CMX',
+            'MX-COA',
+            'MX-COL',
+            'MX-DUR',
+            'MX-GUA',
+            'MX-GRO',
+            'MX-HID',
+            'MX-JAL',
+            'MX-MEX',
+            'MX-MIC',
+            'MX-MOR',
+            'MX-NAY',
+            'MX-NLE',
+            'MX-OAX',
+            'MX-PUE',
+            'MX-QUE',
+            'MX-ROO',
+            'MX-SLP',
+            'MX-SIN',
+            'MX-SON',
+            'MX-TAB',
+            'MX-TAM',
+            'MX-TLA',
+            'MX-VER',
+            'MX-YUC',
+            'MX-ZAC',
+        ];
+
+        print_r($request->all());
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'description' => 'required',
-            'state' => Rule::in(['MX-AGU', 'MX-COL']),
+            'state' => Rule::in($states),
             'created_by' => 'required|max:255'
         ]);
 
         // Validate input
         if ($validator->fails()) {
+            print_r($validator->errors());
             return response([
                 'message' => 'the data is not valid',
             ], Response::HTTP_BAD_REQUEST);
