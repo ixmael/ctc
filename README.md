@@ -26,3 +26,20 @@ docker compose up -d
 ```
 
 You can visit [http://localhost:3000](http://localhost:3000) to list the comunitary tasks.
+
+## Deploy
+This project deploys with **Terraform**. This create the containers (networks, volumes) and executes them. This approach is to upload the *docker* containers to the cloud.
+
+```sh
+# Start the project
+terraform -chdir=./infrastructure/terraform init
+
+# Prepare cantainers
+terraform -chdir=./infrastructure/terraform plan
+
+# Run the containers
+terraform -chdir=./infrastructure/terraform apply
+
+# Destroy the containers
+terraform -chdir=./infrastructure/terraform destroy
+```
