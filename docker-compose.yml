@@ -1,0 +1,55 @@
+version: '3.2'
+
+services:
+  #
+  #
+  #
+  web:
+    image: ctc/web
+    container_name: ctc-web
+    build:
+      context: .
+      dockerfile: ./infrastructure/docker/react.dockerfile
+    depends_on:
+      - api
+    ports:
+      - 3000:3000
+
+  #
+  #
+  #
+  api:
+    image: ctc/api
+    build:
+      context: .
+      dockerfile: ./infrastructure/docker/laravel.dockerfile
+    container_name: ctc-api
+    volumes:
+      - ./laravel:/app
+    depends_on:
+      repository:
+        condition: service_healthy
+    links:
+      - repository
+    ports:
+      - 9000:80
+
+  #
+  #
+  #
+  repository:
+    image: postgres:15.4-alpine3.18
+    container_name: ctc-repository
+    environment:
+      - PGDATA=/data
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./ctc_repository:/data
+    healthcheck:
+        test: ["CMD", "pg_isready"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
