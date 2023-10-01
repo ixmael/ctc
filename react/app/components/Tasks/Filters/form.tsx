@@ -37,7 +37,7 @@ export default function FiltersForm(props: any) {
             <div>
                 <ul>
                     <li className={state !== '' ? 'setted' : 'empty'}>
-                        <div>estado</div>
+                        <div className="key state">estado</div>
                         <select value={state} onChange={e => setState(e.target.value)}>
                             <option value="">seleccionar estado</option>
                             {Object.entries(statesKeyName).map((stateKey) => {
@@ -46,7 +46,7 @@ export default function FiltersForm(props: any) {
                         </select>
                     </li>
                     <li className={createdBy !== '' ? 'setted' : 'empty'}>
-                        <div>creadas por</div>
+                        <div className="key created-by">creadas por</div>
                         <input id="created_by" name="created_by" value={createdBy} onChange={e => setCreatedBy(e.target.value)} />
                     </li>
                 </ul>

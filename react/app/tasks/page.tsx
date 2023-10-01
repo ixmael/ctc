@@ -7,6 +7,9 @@ import createANewTask from '@/app/api/createTask';
 
 import { statesKeyName } from '@/app/utils/catalog';
 
+import SaveIcon from '@/app/assets/icons/save';
+import ClearIcon from '@/app/assets/icons/clear';
+
 export default function Task() {
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [taskWasCreated, setTaskWasCreated] = useState<boolean>(false);
@@ -84,17 +87,25 @@ export default function Task() {
 
     let createdView = (null)
     if (taskWasCreated) {
-        createdView = (<div>creada</div>)
+        createdView = (
+            <div className="success">
+                creada
+            </div>
+        )
     }
 
     let errorView = (null)
     if (error) {
-        errorView = (<div>{error}</div>)
+        errorView = (
+            <div className="error">
+                {error}
+            </div>
+        )
     }
 
     return <div className="new-task">
         <div className="header">
-            <Link href="/">regresar</Link>
+            <Link className="return" href="/">regresar</Link>
             <h3>Nueva tarea comunitaria</h3>
         </div>
         {loadingView}
@@ -104,12 +115,12 @@ export default function Task() {
             <form method="POST" onSubmit={create} onChange={() => isValid()}>
                 <div className="form-item">
                     <label htmlFor="title">título</label>
-                    <input id="title" name="title" value={title} onChange={e => setTitle(e.target.value)} />
+                    <input id="title" name="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Título de la tarea" />
                 </div>
 
                 <div className="form-item">
                     <label htmlFor="description">descripción</label>
-                    <textarea id="description" name="description" onChange={e => setDescription(e.target.value)} value={description}></textarea>
+                    <textarea id="description" name="description" onChange={e => setDescription(e.target.value)} value={description} placeholder="Descripción de la tarea"></textarea>
                 </div>
 
                 <div className="form-item">
@@ -124,12 +135,22 @@ export default function Task() {
 
                 <div className="form-item">
                     <label htmlFor="created_by">tu nombre</label>
-                    <input id="created_by" name="created_by" value={createdBy} onChange={e => setCreatedBy(e.target.value)} />
+                    <input id="created_by" name="created_by" value={createdBy} onChange={e => setCreatedBy(e.target.value)} placeholder="Tu nombre" />
                 </div>
 
                 <div className="form-actions">
-                    <button type="reset" onClick={clear}>clear</button>
-                    <button type="submit" disabled={!isValidData || isCreating}>guardar</button>
+                    <button type="reset" onClick={clear}>
+                        <ClearIcon width={32} height={32} />
+                        <div>
+                            Limpiar
+                        </div>
+                    </button>
+                    <button className="save" type="submit" disabled={!isValidData || isCreating}>
+                        <SaveIcon width={32} height={32} />
+                        <div>
+                            Salvar
+                        </div>
+                    </button>
                 </div>
             </form>
         </div>

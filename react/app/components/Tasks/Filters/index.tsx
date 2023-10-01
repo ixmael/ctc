@@ -17,20 +17,35 @@ export default function Filters(props: any) {
     const [filters, setFilters] = useState<{}>(currentFilters);
     const [showFilterForm, setShowFilterForm] = useState<boolean>(false);
 
-    let currentFiltersView = (<div>sin filtros</div>)
+    let currentFiltersView = (
+        <div className="without-filters">
+            sin filtros
+        </div>
+    )
     if (Object.keys(filters).length > 0) {
         currentFiltersView = (
-            <ul>
+            <ul className="filters-applied">
                 {Object.entries(filters).map((filter) => {
+                    let key = 'creada por'
                     let value = filter[1]
+                    let classesName = 'filter'
 
                     if (filter[0] === 'state') {
                         value = statesKeyName[filter[1]]
+                        classesName += ' state'
+                        key = 'estado'
+                    } else {
+                        classesName += ' created-by'
                     }
 
                     return (
-                        <li key={filter[0]}>
-                            {value}
+                        <li key={filter[0]} className={classesName}>
+                            <div className="key">
+                                {key}:
+                            </div>
+                            <div>
+                                {value}
+                            </div>
                         </li>
                     )
                 })}
@@ -56,7 +71,7 @@ export default function Filters(props: any) {
                     type="button"
                     onClick={() => setShowFilterForm(!showFilterForm)}
                 >
-                    <FilterIcon />
+                    <FilterIcon width={32} height={32} />
                 </button>
                 {currentFiltersView}
             </div>

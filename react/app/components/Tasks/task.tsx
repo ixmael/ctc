@@ -32,25 +32,33 @@ export default function Task(props: any) {
     }
 
     let deleteView = (null)
+    let countClasses = 'count'
     if (loading) {
         deleteView = (<div>borrando</div>)
     } else if (task.likes === 0) {
+        countClasses += ' empty'
         if (tryToDelete) {
-            deleteView = (<div>
-                <div>¿estás seguro que quieres eliminar la tarea?</div>
-                <button
-                    type="button"
-                    title="no borrar esta tarea"
-                    onClick={() => setTryToDelete(false)}
-                >
-                    no
-                </button>
-                <button
-                    type="button"
-                    title="borrar esta tarea"
-                    onClick={() => forceToDelete()}
-                >sí</button>
-            </div>)
+            deleteView = (
+                <div className="delete">
+                    <p>¿estás seguro que quieres eliminar la tarea?</p>
+                    <div className="actions">
+                        <button
+                            type="button"
+                            title="no borrar esta tarea"
+                            onClick={() => setTryToDelete(false)}
+                        >
+                            no
+                        </button>
+                        <button
+                            type="button"
+                            title="borrar esta tarea"
+                            onClick={() => forceToDelete()}
+                        >
+                            sí
+                        </button>
+                    </div>
+                </div>
+            )
         } else {
             deleteView = (
                 <button
@@ -58,7 +66,7 @@ export default function Task(props: any) {
                     title="borrar esta tarea"
                     onClick={() => askToDeleted()}
                 >
-                    <DeleteIcon />
+                    <DeleteIcon width={32} height={32} />
                 </button>
             )
         }
@@ -81,13 +89,13 @@ export default function Task(props: any) {
             disabled={wasVoted || loading}
             onClick={vote}
         >
-            <VoteIcon />
+            <VoteIcon width={32} height={32} />
         </button>
     )
     if (wasVoted) {
         voteView = (
-            <div>
-                <DoneIcon />
+            <div className="voted">
+                <DoneIcon width={32} height={32} />
             </div>
         )
     }
@@ -96,18 +104,29 @@ export default function Task(props: any) {
         {errorView}
         <div className="header">
             <h3>{task.title}</h3>
-            <div>likes {task.likes}</div>
-            <div>
-                <div><MapIcon /> {statesKeyName[task.state]}</div>
-                <div><UserIcon /> {task.created_by}</div>
+            <div className="likes">
+                <div className="label">likes</div>
+                <div className={countClasses}>{task.likes}</div>
             </div>
         </div>
         <div className="content">
             {task.description}
         </div>
         <div className="footer">
-            {deleteView}
-            {voteView}
+            <div className="metadata">
+                <div className="state">
+                    <MapIcon width={16} height={16} />
+                    <div>{statesKeyName[task.state]}</div>
+                </div>
+                <div className="user">
+                    <UserIcon width={16} height={16} />
+                    <div>{task.created_by}</div>
+                </div>
+            </div>
+            <div className="actions">
+                {deleteView}
+                {voteView}
+            </div>
         </div>
     </li >
 }
