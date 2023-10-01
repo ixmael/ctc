@@ -40,8 +40,15 @@ export default function FiltersForm(props: any) {
                         <div className="key state">estado</div>
                         <select value={state} onChange={e => setState(e.target.value)}>
                             <option value="">seleccionar estado</option>
-                            {Object.entries(statesKeyName).map((stateKey) => {
-                                return (<option key={stateKey[0]} value={stateKey[0]}>{stateKey[1]}</option>)
+                            {Object.entries(statesKeyName).map((stateKey: any) => {
+                                return (
+                                    <option
+                                        key={stateKey[0]}
+                                        value={stateKey[0]}
+                                    >
+                                        {stateKey[1]}
+                                    </option>
+                                )
                             })}
                         </select>
                     </li>

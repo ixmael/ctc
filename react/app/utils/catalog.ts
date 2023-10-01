@@ -1,4 +1,4 @@
-export const statesKeyName = {
+export const statesKeyName: {} = {
     'MX-AGU': 'Aguascalientes',
     'MX-BCN': 'Baja California',
     'MX-BCS': 'Baja California Sur',

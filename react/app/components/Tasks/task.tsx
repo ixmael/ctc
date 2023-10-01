@@ -116,7 +116,7 @@ export default function Task(props: any) {
             <div className="metadata">
                 <div className="state">
                     <MapIcon width={16} height={16} />
-                    <div>{statesKeyName[task.state]}</div>
+                    <div>{statesKeyName[task.state as keyof typeof statesKeyName]}</div>
                 </div>
                 <div className="user">
                     <UserIcon width={16} height={16} />

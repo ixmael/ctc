@@ -25,13 +25,13 @@ export default function Filters(props: any) {
     if (Object.keys(filters).length > 0) {
         currentFiltersView = (
             <ul className="filters-applied">
-                {Object.entries(filters).map((filter) => {
+                {Object.entries(filters).map((filter: any) => {
                     let key = 'creada por'
                     let value = filter[1]
                     let classesName = 'filter'
 
                     if (filter[0] === 'state') {
-                        value = statesKeyName[filter[1]]
+                        value = statesKeyName[filter[1] as keyof typeof statesKeyName]
                         classesName += ' state'
                         key = 'estado'
                     } else {

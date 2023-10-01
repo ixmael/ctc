@@ -21,7 +21,7 @@ export default function Task() {
     const [state, setState] = useState<string>('');
     const [createdBy, setCreatedBy] = useState<string>('');
 
-    const create = (e) => {
+    const create = (e: any) => {
         e.preventDefault()
 
         if (isValidData) {
@@ -127,8 +127,15 @@ export default function Task() {
                     <label htmlFor="state">estado</label>
                     <select id="state" name="state" value={state} onChange={e => setState(e.target.value)}>
                         <option>Seleccione el estado</option>
-                        {Object.entries(statesKeyName).map((stateKey) => {
-                            return (<option key={stateKey[0]} value={stateKey[0]}>{stateKey[1]}</option>)
+                        {Object.entries(statesKeyName).map((stateKey: any) => {
+                            return (
+                                <option
+                                    key={stateKey[0]}
+                                    value={stateKey[0]}
+                                >
+                                    {stateKey[1]}
+                                </option>
+                            )
                         })}
                     </select>
                 </div>
