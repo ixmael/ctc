@@ -12,7 +12,7 @@ I implemented the *Web* that consumes the *RestAPI* is in the **react** director
 We use **docker** containers to provide the CTC's services. Previous to start the services, you have to setup the services:
 - Configure the database creating a *.env* file in this path with the parameters for the *PostgreSQL* service. In the file *.env.example* you have the parameters required.
 - Configure the database to the *laravel/.env* with the parameters of the database.
-- Set the *RestAPI* URL in the *react/.env*. In the current configuration services provide the *RestAPI* in [http://localhost:9000/api/v1](http://localhost:9000/api/v1).
+- Set the *RestAPI* URL in the *react/.env*. In the current configuration services provide the *RestAPI* in [http://localhost:9000/api/v1](http://localhost:9000/api/v1) and the *RestAPI* documentation in [RestAPI documentation](http://localhost:9000/api/documentation).
 
 ### Run the services
 ```sh

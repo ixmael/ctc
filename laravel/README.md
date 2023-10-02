@@ -17,7 +17,24 @@ php artisan migrate
 php artisan serve
 ```
 
-You can use [the CTC postman collection](ctc.postman_collection.json) to consume the RestAPI in the localhost from *postman*.
+The *RestAPI* run in [RestAPI server](http://localhost:8000) and the the *RestAPI* docs in the [RestAPI documentation](http://localhost:8000/api/documentation).
+
+You can use [the CTC postman collection](ctc.postman_collection.json) to consume the *RestAPI* in the localhost from *postman*.
 
 ## Production
-TODO.
+Install the dependencies for the project:
+```sh
+composer install --optimize-autoloader --no-dev
+```
+
+Run the migrations:
+```sh
+php artisan migrate
+```
+
+Prepare the project to run in production:
+```sh
+php artisan optimize
+```
+
+Now, put this directory in the server to execute the *RestAPI*.
