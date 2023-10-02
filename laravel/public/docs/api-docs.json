@@ -1,0 +1,325 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Cuida Tu Comunidad RestAPI",
+        "description": "This is the RestAPI to handle the comunitary tasks.",
+        "contact": {
+            "email": "hola@irm.mx"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/"
+        }
+    ],
+    "paths": {
+        "/tasks": {
+            "get": {
+                "summary": "The list of tasks",
+                "description": "This filters all the registered tasks",
+                "parameters": [
+                    {
+                        "name": "state",
+                        "in": "url",
+                        "required": false,
+                        "description": "Filter the tasks by state",
+                        "schema": {
+                            "type": "string",
+                            "examples": [
+                                "MX-COA",
+                                "MX-SON"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "created_by",
+                        "in": "url",
+                        "required": false,
+                        "description": "Filter the tasks by the creator of them",
+                        "schema": {
+                            "type": "string",
+                            "examples": [
+                                "user_a",
+                                "user_b"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The filtered communitary tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "The ID of the task",
+                                                        "examples": [
+                                                            "9a413e72-a6b4-40da-baae-1e80a3054ac4",
+                                                            "9a42db57-e846-4d05-9671-a2e4a37119fe"
+                                                        ]
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "description": "The titile of the task",
+                                                        "examples": [
+                                                            "clean the streets"
+                                                        ]
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "The description of the task",
+                                                        "examples": [
+                                                            "This task pretend to clean all the streets of the colony"
+                                                        ]
+                                                    },
+                                                    "state": {
+                                                        "type": "string",
+                                                        "description": "The state of the task (ISO 3136-2)",
+                                                        "examples": [
+                                                            "MX-AGU",
+                                                            "MX-NLE"
+                                                        ]
+                                                    },
+                                                    "likes": {
+                                                        "type": "number",
+                                                        "description": "The likes of the task",
+                                                        "examples": [
+                                                            0,
+                                                            47,
+                                                            93
+                                                        ]
+                                                    },
+                                                    "created_by": {
+                                                        "type": "string",
+                                                        "description": "The name of the user that register the task",
+                                                        "examples": [
+                                                            "user_a",
+                                                            "user_b"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is an error in your request"
+                    },
+                    "5xx": {
+                        "description": "There is an error in the server"
+                    }
+                },
+                "tags": [
+                    "tasks"
+                ]
+            },
+            "post": {
+                "summary": "Create a task",
+                "description": "This creates a new task",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "task",
+                        "description": "aoeu",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "description": "The titile of the task",
+                                    "examples": [
+                                        "clean the streets"
+                                    ]
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "The description of the task",
+                                    "examples": [
+                                        "This task pretend to clean all the streets of the colony"
+                                    ]
+                                },
+                                "state": {
+                                    "type": "string",
+                                    "description": "The state of the task (ISO 3136-2)",
+                                    "examples": [
+                                        "MX-AGU",
+                                        "MX-NLE"
+                                    ]
+                                },
+                                "created_by": {
+                                    "type": "string",
+                                    "description": "The name of the user that register the task",
+                                    "examples": [
+                                        "user_a",
+                                        "user_b"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The task was created"
+                    },
+                    "400": {
+                        "description": "There is an error in your request"
+                    },
+                    "5xx": {
+                        "description": "There is an error in the server"
+                    }
+                },
+                "tags": [
+                    "tasks"
+                ]
+            }
+        },
+        "/tasks/{ID}": {
+            "delete": {
+                "summary": "Delete this task",
+                "description": "This delete the task with the ID",
+                "responses": {
+                    "200": {
+                        "description": "The task was deleted"
+                    },
+                    "400": {
+                        "description": "There is an error in your request"
+                    },
+                    "5xx": {
+                        "description": "There is an error in the server"
+                    }
+                },
+                "tags": [
+                    "tasks"
+                ]
+            }
+        },
+        "/tasks/{ID}/vote": {
+            "post": {
+                "summary": "Add a like to the task",
+                "description": "Add a like to the task with the ID",
+                "responses": {
+                    "200": {
+                        "description": "The task was voted"
+                    },
+                    "400": {
+                        "description": "There is an error in your request"
+                    },
+                    "5xx": {
+                        "description": "There is an error in the server"
+                    }
+                },
+                "tags": [
+                    "tasks"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "NewTask": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "The titile of the task",
+                        "examples": [
+                            "clean the streets"
+                        ]
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "The description of the task",
+                        "examples": [
+                            "This task pretend to clean all the streets of the colony"
+                        ]
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "The state of the task (ISO 3136-2)",
+                        "examples": [
+                            "MX-AGU",
+                            "MX-NLE"
+                        ]
+                    },
+                    "created_by": {
+                        "type": "string",
+                        "description": "The name of the user that register the task",
+                        "examples": [
+                            "user_a",
+                            "user_b"
+                        ]
+                    }
+                }
+            },
+            "Task": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The ID of the task",
+                        "examples": [
+                            "9a413e72-a6b4-40da-baae-1e80a3054ac4",
+                            "9a42db57-e846-4d05-9671-a2e4a37119fe"
+                        ]
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The titile of the task",
+                        "examples": [
+                            "clean the streets"
+                        ]
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "The description of the task",
+                        "examples": [
+                            "This task pretend to clean all the streets of the colony"
+                        ]
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "The state of the task (ISO 3136-2)",
+                        "examples": [
+                            "MX-AGU",
+                            "MX-NLE"
+                        ]
+                    },
+                    "likes": {
+                        "type": "number",
+                        "description": "The likes of the task",
+                        "examples": [
+                            0,
+                            47,
+                            93
+                        ]
+                    },
+                    "created_by": {
+                        "type": "string",
+                        "description": "The name of the user that register the task",
+                        "examples": [
+                            "user_a",
+                            "user_b"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
